@@ -6,11 +6,11 @@
 
 package minetweaker.mc1102.vanilla;
 
-import minetweaker.IUndoableAction;
-import minetweaker.MineTweakerAPI;
+import minetweaker.*;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.item.WeightedItemStack;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.vanilla.ISeedRegistry;
 import minetweaker.mc1102.util.MineTweakerHacks;
@@ -86,6 +86,10 @@ public class MCSeedRegistry implements ISeedRegistry {
         public Object getOverrideKey() {
             return null;
         }
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
+        }
     }
 
     private static class RemoveSeedAction implements IUndoableAction {
@@ -136,6 +140,11 @@ public class MCSeedRegistry implements ISeedRegistry {
         @Override
         public Object getOverrideKey() {
             return null;
+        }
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
         }
     }
 }

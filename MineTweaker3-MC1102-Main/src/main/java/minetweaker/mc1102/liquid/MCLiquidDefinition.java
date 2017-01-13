@@ -6,11 +6,11 @@
 
 package minetweaker.mc1102.liquid;
 
-import minetweaker.IUndoableAction;
-import minetweaker.MineTweakerAPI;
+import minetweaker.*;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidDefinition;
 import minetweaker.api.liquid.ILiquidStack;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidContainerRegistry;
@@ -151,7 +151,7 @@ public class MCLiquidDefinition implements ILiquidDefinition{
     // ### Action classes ###
     // ######################
 
-    private class AddContainerAction implements IUndoableAction{
+    private class AddContainerAction implements IUndoableAction {
         private final IItemStack filled;
         private final IItemStack empty;
         private final int amount;
@@ -192,6 +192,11 @@ public class MCLiquidDefinition implements ILiquidDefinition{
         public Object getOverrideKey(){
             return null;
         }
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
+        }
     }
 
 	/*
@@ -221,7 +226,7 @@ public class MCLiquidDefinition implements ILiquidDefinition{
 	 * @Override public Object getOverrideKey() { return null; } }
 	 */
 
-    private class ActionSetLuminosity implements IUndoableAction{
+    private class ActionSetLuminosity implements IUndoableAction {
         private final int oldValue;
         private final int newValue;
 
@@ -259,9 +264,13 @@ public class MCLiquidDefinition implements ILiquidDefinition{
         public Object getOverrideKey(){
             return null;
         }
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
+        }
     }
 
-    private class ActionSetDensity implements IUndoableAction{
+    private class ActionSetDensity implements IUndoableAction {
         private final int oldValue;
         private final int newValue;
 
@@ -299,9 +308,13 @@ public class MCLiquidDefinition implements ILiquidDefinition{
         public Object getOverrideKey(){
             return null;
         }
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
+        }
     }
 
-    private class ActionSetTemperature implements IUndoableAction{
+    private class ActionSetTemperature implements IUndoableAction {
         private final int oldValue;
         private final int newValue;
 
@@ -339,9 +352,13 @@ public class MCLiquidDefinition implements ILiquidDefinition{
         public Object getOverrideKey(){
             return null;
         }
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
+        }
     }
 
-    private class ActionSetViscosity implements IUndoableAction{
+    private class ActionSetViscosity implements IUndoableAction {
         private final int oldValue;
         private final int newValue;
 
@@ -379,9 +396,13 @@ public class MCLiquidDefinition implements ILiquidDefinition{
         public Object getOverrideKey(){
             return null;
         }
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
+        }
     }
 
-    private class ActionSetGaseous implements IUndoableAction{
+    private class ActionSetGaseous implements IUndoableAction {
         private final boolean oldValue;
         private final boolean newValue;
 
@@ -418,6 +439,10 @@ public class MCLiquidDefinition implements ILiquidDefinition{
         @Override
         public Object getOverrideKey(){
             return null;
+        }
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
         }
     }
 }

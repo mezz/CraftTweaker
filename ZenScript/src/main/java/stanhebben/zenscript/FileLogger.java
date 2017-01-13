@@ -4,10 +4,8 @@
  * and open the template in the editor.
  */
 
-package minetweaker.api.logger;
+package stanhebben.zenscript;
 
-import minetweaker.MineTweakerAPI;
-import minetweaker.runtime.ILogger;
 
 import java.io.*;
 import java.util.regex.Pattern;
@@ -16,10 +14,12 @@ import java.util.regex.Pattern;
 /**
  * @author Stan Hebben
  */
-public class FileLogger implements ILogger {
+public class FileLogger {
 	
 	private final Writer writer;
 	private final PrintWriter printWriter;
+	
+	public static FileLogger INSTANCE = new FileLogger(new File("generated.log"));
 	
 	public FileLogger(File output) {
 		try {
@@ -32,45 +32,40 @@ public class FileLogger implements ILogger {
 		}
 	}
 	
-	@Override
 	public void logCommand(String message) {
 		try {
-			writer.write(MineTweakerAPI.currentStage + " " +stripMessage(message) + "\n");
+			writer.write(stripMessage(message) + "\n");
 			writer.flush();
 		} catch(IOException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 	
-	@Override
 	public void logInfo(String message) {
 		try {
-			writer.write(MineTweakerAPI.currentStage + " " +"INFO: " + stripMessage(message) + "\n");
+			writer.write(stripMessage(message) + "\n");
 			writer.flush();
 		} catch(IOException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 	
-	@Override
 	public void logWarning(String message) {
 		try {
-			writer.write(MineTweakerAPI.currentStage + " " +"WARNING: " + stripMessage(message) + "\n");
+			writer.write( stripMessage(message) + "\n");
 			writer.flush();
 		} catch(IOException ex) {
 			throw new RuntimeException(ex);
 		}
 	}
 	
-	@Override
 	public void logError(String message) {
 		logError(message, null);
 	}
 	
-	@Override
 	public void logError(String message, Throwable exception) {
 		try {
-			writer.write(MineTweakerAPI.currentStage + " " +"ERROR: " + stripMessage(message) + "\n");
+			writer.write(stripMessage(message) + "\n");
 			if(exception != null) {
 				exception.printStackTrace(printWriter);
 			}

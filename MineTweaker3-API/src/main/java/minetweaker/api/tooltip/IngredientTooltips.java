@@ -6,11 +6,11 @@
 
 package minetweaker.api.tooltip;
 
-import minetweaker.IUndoableAction;
-import minetweaker.MineTweakerAPI;
+import minetweaker.*;
 import minetweaker.api.formatting.IFormattedText;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.api.util.IngredientMap;
 import minetweaker.api.util.IngredientMap.IngredientMapEntry;
 import stanhebben.zenscript.annotations.ZenExpansion;
@@ -93,6 +93,11 @@ public class IngredientTooltips {
 		@Override
 		public Object getOverrideKey() {
 			return null;
+		}
+		
+		@Override
+		public EnumLoadingStage getLoadingStage() {
+			return EnumLoadingStage.SERVER_STARTING;
 		}
 	}
 }

@@ -8,12 +8,12 @@ package minetweaker.mods.ic2.machines;
 
 import ic2.api.recipe.RecipeInputFluidContainer;
 import ic2.api.recipe.Recipes;
-import minetweaker.MineTweakerAPI;
-import minetweaker.OneWayAction;
+import minetweaker.*;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.liquid.ILiquidStack;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.mods.ic2.IC2RecipeInput;
 import net.minecraftforge.fluids.FluidStack;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -47,7 +47,7 @@ public class Canner {
         MineTweakerAPI.apply(new AddEnrichLiquidAction(input, additive, output));
     }
 
-    private static class AddBottleIngredientAction extends OneWayAction {
+    private static class AddBottleIngredientAction implements IAction {
         private final IIngredient container;
         private final IIngredient fill;
         private final IItemStack output;
@@ -75,7 +75,12 @@ public class Canner {
         public Object getOverrideKey() {
             return null;
         }
-
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.POSTINITIALIZATION;
+        }
+    
         @Override
         public int hashCode() {
             int hash = 7;
@@ -98,7 +103,7 @@ public class Canner {
         }
     }
 
-    private static class AddBottleLiquidAction extends OneWayAction {
+    private static class AddBottleLiquidAction implements IAction {
         private final IIngredient container;
         private final ILiquidStack fill;
         private final IItemStack output;
@@ -128,9 +133,14 @@ public class Canner {
         public Object getOverrideKey() {
             return null;
         }
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.POSTINITIALIZATION;
+        }
     }
 
-    private static class AddEnrichIngredientAction extends OneWayAction {
+    private static class AddEnrichIngredientAction implements IAction {
         private final ILiquidStack input;
         private final IIngredient additive;
         private final ILiquidStack output;
@@ -155,7 +165,12 @@ public class Canner {
         public Object getOverrideKey() {
             return null;
         }
-
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.POSTINITIALIZATION;
+        }
+    
         @Override
         public int hashCode() {
             int hash = 7;
@@ -178,7 +193,7 @@ public class Canner {
         }
     }
 
-    private static class AddEnrichLiquidAction extends OneWayAction {
+    private static class AddEnrichLiquidAction implements IAction {
         private final ILiquidStack input;
         private final ILiquidStack additive;
         private final ILiquidStack output;
@@ -207,7 +222,12 @@ public class Canner {
         public Object getOverrideKey() {
             return null;
         }
-
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.POSTINITIALIZATION;
+        }
+    
         @Override
         public int hashCode() {
             int hash = 7;

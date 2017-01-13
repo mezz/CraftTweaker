@@ -6,13 +6,14 @@
 
 package minetweaker.mc1102.actions;
 
-import minetweaker.IUndoableAction;
+import minetweaker.*;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import net.minecraft.item.ItemStack;
 
 /**
  * @author Jared
  */
-public class SetStackSizeAction implements IUndoableAction{
+public class SetStackSizeAction implements IUndoableAction {
 
     private final ItemStack stack;
     private final int size;
@@ -56,5 +57,9 @@ public class SetStackSizeAction implements IUndoableAction{
     @Override
     public Object getOverrideKey(){
         return null;
+    }
+    @Override
+    public EnumLoadingStage getLoadingStage() {
+        return EnumLoadingStage.SERVER_STARTING;
     }
 }

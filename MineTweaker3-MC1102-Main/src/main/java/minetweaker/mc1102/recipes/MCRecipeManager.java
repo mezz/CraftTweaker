@@ -2,6 +2,7 @@ package minetweaker.mc1102.recipes;
 
 import minetweaker.*;
 import minetweaker.api.item.*;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
 import minetweaker.api.recipes.*;
@@ -327,6 +328,7 @@ public class MCRecipeManager implements IRecipeManager {
 		
 		@Override
 		public void apply() {
+			System.out.println(">>>" + MineTweakerAPI.currentStage);
 			for(int i = removingIndices.size() - 1; i >= 0; i--) {
 				recipes.remove((int) removingIndices.get(i));
 				MineTweakerAPI.getIjeiRecipeRegistry().removeRecipe(removingRecipes.get(i));
@@ -360,6 +362,11 @@ public class MCRecipeManager implements IRecipeManager {
 		@Override
 		public Object getOverrideKey() {
 			return null;
+		}
+		
+		@Override
+		public EnumLoadingStage getLoadingStage() {
+			return EnumLoadingStage.SERVER_STARTING;
 		}
 	}
 	
@@ -409,6 +416,11 @@ public class MCRecipeManager implements IRecipeManager {
 		@Override
 		public Object getOverrideKey() {
 			return null;
+		}
+		
+		@Override
+		public EnumLoadingStage getLoadingStage() {
+			return EnumLoadingStage.SERVER_STARTING;
 		}
 	}
 }

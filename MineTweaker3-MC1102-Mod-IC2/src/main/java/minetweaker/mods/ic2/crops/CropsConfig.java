@@ -2,10 +2,10 @@ package minetweaker.mods.ic2.crops;
 
 import ic2.api.crops.CropCard;
 import ic2.api.crops.Crops;
-import minetweaker.MineTweakerAPI;
-import minetweaker.OneWayAction;
+import minetweaker.*;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IItemStack;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.api.minecraft.MineTweakerMC;
 import net.minecraftforge.common.BiomeDictionary;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -30,7 +30,7 @@ public class CropsConfig {
      *
      * @author ben
      */
-    private static final class RegisterBaseSeedAction extends OneWayAction {
+    private static final class RegisterBaseSeedAction implements IAction{
         private IItemStack seed;
         private CropCard c;
         private int sz;
@@ -51,7 +51,12 @@ public class CropsConfig {
         public Object getOverrideKey() {
             return null;
         }
-
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.POSTINITIALIZATION;
+        }
+    
         @Override
         public String describe() {
             return "Registering base seed for crop " + c.getName();
@@ -69,7 +74,7 @@ public class CropsConfig {
      *
      * @author ben
      */
-    private static final class RegisterCropCardAction extends OneWayAction {
+    private static final class RegisterCropCardAction implements IAction {
         private CropCard c;
 
         public RegisterCropCardAction(CropCard c) {
@@ -80,7 +85,12 @@ public class CropsConfig {
         public Object getOverrideKey() {
             return null;
         }
-
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.POSTINITIALIZATION;
+        }
+    
         @Override
         public String describe() {
             return "Registering crop " + c.getName();
@@ -98,7 +108,7 @@ public class CropsConfig {
      *
      * @author ben
      */
-    private static final class AddBiomeNutrientBonusAction extends OneWayAction {
+    private static final class AddBiomeNutrientBonusAction implements IAction{
         private String biomeType;
         private int nutrientBonus;
 
@@ -112,7 +122,12 @@ public class CropsConfig {
             // TODO Auto-generated method stub
             return null;
         }
-
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.POSTINITIALIZATION;
+        }
+    
         @Override
         public String describe() {
             return "Setting biome nutrient bonus for " + biomeType + " biomes to " +
@@ -131,7 +146,7 @@ public class CropsConfig {
      *
      * @author ben
      */
-    private static final class AddBiomeHumidityBonusAction extends OneWayAction {
+    private static final class AddBiomeHumidityBonusAction implements IAction {
         private String biomeType;
         private int humidityBonus;
 
@@ -145,7 +160,12 @@ public class CropsConfig {
             // TODO Auto-generated method stub
             return null;
         }
-
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.POSTINITIALIZATION;
+        }
+    
         @Override
         public String describe() {
             return "Setting biome humidity bonus for " + biomeType + " biomes to " +

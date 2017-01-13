@@ -7,6 +7,7 @@
 package minetweaker.mc1102;
 
 import minetweaker.*;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.api.logger.FileLogger;
 import minetweaker.mc1102.brackets.*;
 import minetweaker.mc1102.client.MCClient;
@@ -33,7 +34,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.io.File;
-import java.lang.reflect.*;
 
 /**
  * Main mod class. Performs some general logic, initialization of the API and
@@ -41,7 +41,7 @@ import java.lang.reflect.*;
  *
  * @author Stan Hebben
  */
-@Mod(modid = MineTweakerMod.MODID, version = "3.0.17", name = MineTweakerMod.NAME,dependencies="after:JEI@[3.14.2.398,)")
+@Mod(modid = MineTweakerMod.MODID, version = "3.0.17", name = MineTweakerMod.NAME, dependencies = "after:JEI@[3.14.2.398,)")
 public class MineTweakerMod {
 	
 	public static final String MODID = "MineTweaker3";
@@ -97,44 +97,77 @@ public class MineTweakerMod {
 	}
 	
 	@EventHandler
-	public void onLoad(FMLPreInitializationEvent ev) {
-		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
-		MinecraftForge.EVENT_BUS.register(new FMLEventHandler());
-	}
-	
-	@EventHandler
-	public void onPostInit(FMLPostInitializationEvent ev) {
-		MineTweakerAPI.registerClassRegistry(MineTweakerRegistry.class);
-		
-		for(int i = 0; i < REGISTRIES.length; i++) {
-			MineTweakerAPI.registerClassRegistry(REGISTRIES[i], REGISTRY_DESCRIPTIONS[i]);
-		}
-		FuelTweaker.INSTANCE.register();
-		if(Loader.isModLoaded("JEI")) {
-			try {
-				Method register = Class.forName("minetweaker.mods.jei.JEI").getMethod("onRegister");
-				register.invoke(null);
-			} catch(NoSuchMethodException | ClassNotFoundException | InvocationTargetException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	@EventHandler
-	public void onComplete(FMLLoadCompleteEvent ev) {
-		MineTweakerAPI.logInfo("MineTweaker: Building registry");
+	public void onPreInit(FMLPreInitializationEvent ev) {
+		MineTweakerAPI.logInfo("MineTweaker: Building registry for PreInit");
 		ItemBracketHandler.rebuildItemRegistry();
 		LiquidBracketHandler.rebuildLiquidRegistry();
 		MineTweakerAPI.logInfo("MineTweaker: Sucessfully built item registry");
 		GlobalRegistry.registerBracketHandler(new ItemBracketHandler());
 		GlobalRegistry.registerBracketHandler(new LiquidBracketHandler());
 		GlobalRegistry.registerBracketHandler(new OreBracketHandler());
+		IScriptProvider cascaded = new ScriptProviderCascade(scriptsGlobal);
+		
+		MineTweakerImplementationAPI.setScriptProvider(cascaded);
+//		MineTweakerImplementationAPI.onServerStart(new MCServer(ev.getServer()));
+		
+		MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
+		MinecraftForge.EVENT_BUS.register(new FMLEventHandler());
+		MineTweakerAPI.currentStage = EnumLoadingStage.PREINITIALIZATION;
+//		MineTweakerImplementationAPI.reload();
+	}
+	
+	@EventHandler
+	public void onInit(FMLInitializationEvent ev) {
+		MineTweakerAPI.logInfo("MineTweaker: Building registry for Init");
+		ItemBracketHandler.rebuildItemRegistry();
+		LiquidBracketHandler.rebuildLiquidRegistry();
+		MineTweakerAPI.logInfo("MineTweaker: Sucessfully built item registry");
+		GlobalRegistry.registerBracketHandler(new ItemBracketHandler());
+		GlobalRegistry.registerBracketHandler(new LiquidBracketHandler());
+		GlobalRegistry.registerBracketHandler(new OreBracketHandler());
+		
+		MineTweakerAPI.currentStage = EnumLoadingStage.INITIALIZATION;
+//		MineTweakerImplementationAPI.reload();
+	}
+	
+	@EventHandler
+	public void onPostInit(FMLPostInitializationEvent ev) {
+		MineTweakerAPI.logInfo("MineTweaker: Building registry for PostInit");
+		ItemBracketHandler.rebuildItemRegistry();
+		LiquidBracketHandler.rebuildLiquidRegistry();
+		MineTweakerAPI.logInfo("MineTweaker: Sucessfully built item registry");
+		GlobalRegistry.registerBracketHandler(new ItemBracketHandler());
+		GlobalRegistry.registerBracketHandler(new LiquidBracketHandler());
+		GlobalRegistry.registerBracketHandler(new OreBracketHandler());
+		
+		MineTweakerAPI.registerClassRegistry(MineTweakerRegistry.class);
+		
+		for(int i = 0; i < REGISTRIES.length; i++) {
+			MineTweakerAPI.registerClassRegistry(REGISTRIES[i], REGISTRY_DESCRIPTIONS[i]);
+		}
+		FuelTweaker.INSTANCE.register();
+		MineTweakerAPI.currentStage = EnumLoadingStage.POSTINITIALIZATION;
+//		MineTweakerImplementationAPI.reload();
+	}
+	
+	@EventHandler
+	public void onComplete(FMLLoadCompleteEvent ev) {
+		MineTweakerAPI.logInfo("MineTweaker: Building registry for LoadComplete");
+		ItemBracketHandler.rebuildItemRegistry();
+		LiquidBracketHandler.rebuildLiquidRegistry();
+		MineTweakerAPI.logInfo("MineTweaker: Sucessfully built item registry");
+		GlobalRegistry.registerBracketHandler(new ItemBracketHandler());
+		GlobalRegistry.registerBracketHandler(new LiquidBracketHandler());
+		GlobalRegistry.registerBracketHandler(new OreBracketHandler());
+		
+		MineTweakerAPI.currentStage = EnumLoadingStage.AVAILABLE;
+//		MineTweakerImplementationAPI.reload();
 	}
 	
 	@EventHandler
 	public void onServerAboutToStart(FMLServerAboutToStartEvent ev) {
-		server = ev.getServer();
-		
+		MineTweakerAPI.currentStage = EnumLoadingStage.SERVER_ABOUT_TO_START;
+//		MineTweakerImplementationAPI.reload();
 	}
 	
 	@EventHandler
@@ -146,21 +179,27 @@ public class MineTweakerMod {
 		if(MineTweakerPlatformUtils.isClient()) {
 			MineTweakerAPI.client = new MCClient();
 		}
-		
-		File scriptsDir = new File(MineTweakerHacks.getWorldDirectory(ev.getServer()), "scripts");
-		if(!scriptsDir.exists()) {
-			scriptsDir.mkdir();
-		}
-		
-		IScriptProvider scriptsLocal = new ScriptProviderDirectory(scriptsDir);
-		IScriptProvider cascaded = new ScriptProviderCascade(scriptsIMC, scriptsGlobal, scriptsLocal);
-		
-		MineTweakerImplementationAPI.setScriptProvider(cascaded);
 		MineTweakerImplementationAPI.onServerStart(new MCServer(ev.getServer()));
+		MineTweakerAPI.currentStage = EnumLoadingStage.SERVER_STARTING;
+		MineTweakerImplementationAPI.reload();
+	}
+	
+	@EventHandler
+	public void onServerStarted(FMLServerStartedEvent ev) {
+		MineTweakerAPI.currentStage = EnumLoadingStage.SERVER_STARTED;
+//		MineTweakerImplementationAPI.reload();
+	}
+	
+	@EventHandler
+	public void onServerStopped(FMLServerStoppingEvent ev) {
+		MineTweakerAPI.currentStage = EnumLoadingStage.SERVER_STOPPING;
+//		MineTweakerImplementationAPI.reload();
 	}
 	
 	@EventHandler
 	public void onServerStopped(FMLServerStoppedEvent ev) {
+		MineTweakerAPI.currentStage = EnumLoadingStage.SERVER_STOPPED;
+//		MineTweakerImplementationAPI.reload();
 		MineTweakerImplementationAPI.onServerStop();
 		MineTweakerImplementationAPI.setScriptProvider(scriptsGlobal);
 		server = null;

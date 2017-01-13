@@ -8,6 +8,8 @@ package stanhebben.zenscript.expression;
 
 import java.lang.reflect.Method;
 import java.util.List;
+
+import stanhebben.zenscript.FileLogger;
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
 import stanhebben.zenscript.compiler.IEnvironmentMethod;
 import stanhebben.zenscript.definitions.ParsedFunctionArgument;
@@ -32,7 +34,7 @@ public class ExpressionFunction extends Expression {
 	public ExpressionFunction(ZenPosition position, List<ParsedFunctionArgument> arguments, ZenType returnType, List<Statement> statements) {
 		super(position);
 
-		System.out.println("Function expression: " + arguments.size() + " arguments");
+		FileLogger.INSTANCE.logInfo("Function expression: " + arguments.size() + " arguments");
 
 		this.arguments = arguments;
 		this.returnType = returnType;

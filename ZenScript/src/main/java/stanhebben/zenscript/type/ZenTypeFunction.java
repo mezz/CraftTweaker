@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.objectweb.asm.Type;
+import stanhebben.zenscript.FileLogger;
 import stanhebben.zenscript.annotations.CompareType;
 import stanhebben.zenscript.annotations.OperatorType;
 import stanhebben.zenscript.compiler.IEnvironmentGlobal;
@@ -109,7 +110,7 @@ public class ZenTypeFunction extends ZenType {
 
 		Class cls = type.toJavaClass();
 
-		System.out.println("Can cast this function to " + cls.getName() + "?");
+		FileLogger.INSTANCE.logInfo("Can cast this function to " + cls.getName() + "?");
 
 		if (cls.isInterface() && cls.getMethods().length == 1) {
 			// this is a functional interface
@@ -120,14 +121,14 @@ public class ZenTypeFunction extends ZenType {
 			if (!returnType.equals(methodReturnType)) {
 				returnCastingRule = returnType.getCastingRule(environment.getType(method.getGenericReturnType()), environment);
 				if (returnCastingRule == null) {
-					System.out.println("Return types don't match");
+					FileLogger.INSTANCE.logInfo("Return types don't match");
 					return null;
 				}
 			}
 
 			java.lang.reflect.Type[] methodParameters = method.getGenericParameterTypes();
 			if (methodParameters.length < argumentTypes.length) {
-				System.out.println("Argument count doesn't match");
+				FileLogger.INSTANCE.logInfo("Argument count doesn't match");
 				return null;
 			}
 
@@ -137,8 +138,8 @@ public class ZenTypeFunction extends ZenType {
 				if (!argumentType.equals(argumentTypes[i])) {
 					argumentCastingRules[i] = argumentType.getCastingRule(argumentTypes[i], environment);
 					if (argumentCastingRules[i] == null) {
-						System.out.println("Argument " + i + " doesn't match");
-						System.out.println("Cannot cast " + argumentType.getName() + " to " + argumentTypes[i].getName());
+						FileLogger.INSTANCE.logInfo("Argument " + i + " doesn't match");
+						FileLogger.INSTANCE.logInfo("Cannot cast " + argumentType.getName() + " to " + argumentTypes[i].getName());
 						return null;
 					}
 				}
@@ -146,7 +147,7 @@ public class ZenTypeFunction extends ZenType {
 
 			CastingRuleMatchedFunction castingRule = new CastingRuleMatchedFunction(this, type, returnCastingRule, argumentCastingRules);
 			implementedInterfaces.put(type, castingRule);
-			System.out.println("Can cast this function");
+			FileLogger.INSTANCE.logInfo("Can cast this function");
 			return castingRule;
 		}
 

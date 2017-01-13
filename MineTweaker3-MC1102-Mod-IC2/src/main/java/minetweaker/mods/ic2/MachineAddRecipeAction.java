@@ -1,8 +1,8 @@
 package minetweaker.mods.ic2;
 
 import ic2.api.recipe.IMachineRecipeManager;
-import minetweaker.MineTweakerAPI;
-import minetweaker.OneWayAction;
+import minetweaker.*;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * @author Stan Hebben
  */
-public class MachineAddRecipeAction extends OneWayAction {
+public class MachineAddRecipeAction implements IAction {
     private final String name;
     private final IMachineRecipeManager machine;
     private final ItemStack[] output;
@@ -59,7 +59,12 @@ public class MachineAddRecipeAction extends OneWayAction {
     public Object getOverrideKey() {
         return null;
     }
-
+    
+    @Override
+    public EnumLoadingStage getLoadingStage() {
+        return EnumLoadingStage.POSTINITIALIZATION;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

@@ -7,10 +7,10 @@
 package minetweaker.mods.ic2.machines;
 
 import ic2.api.recipe.Recipes;
-import minetweaker.MineTweakerAPI;
-import minetweaker.OneWayAction;
+import minetweaker.*;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.liquid.ILiquidStack;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import net.minecraftforge.fluids.FluidRegistry;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -32,7 +32,7 @@ public class FluidHeatGenerator {
 		return Recipes.fluidHeatGenerator.acceptsFluid(FluidRegistry.getFluid(liquid.getName()));
 	}
 	
-	private static class AddFluidAction extends OneWayAction {
+	private static class AddFluidAction implements IAction {
 		private final String name;
 		private final int liquidPerTick;
 		private final int heatPerTick;
@@ -57,7 +57,12 @@ public class FluidHeatGenerator {
 		public Object getOverrideKey() {
 			return null;
 		}
-
+		
+		@Override
+		public EnumLoadingStage getLoadingStage() {
+			return EnumLoadingStage.POSTINITIALIZATION;
+		}
+		
 		@Override
 		public int hashCode() {
 			int hash = 7;

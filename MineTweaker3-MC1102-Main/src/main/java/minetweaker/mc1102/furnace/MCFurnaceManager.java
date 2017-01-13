@@ -8,6 +8,7 @@ package minetweaker.mc1102.furnace;
 
 import minetweaker.*;
 import minetweaker.api.item.*;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.api.recipes.*;
 import minetweaker.mc1102.item.MCItemStack;
 import net.minecraft.item.ItemStack;
@@ -44,8 +45,11 @@ public class MCFurnaceManager implements IFurnaceManager {
 		});
 		
 		if(toRemove.isEmpty()) {
+			MineTweakerAPI.logWarning(MineTweakerAPI.currentStage + "");
 			MineTweakerAPI.logWarning("No furnace recipes for " + output.toString());
 		} else {
+			System.out.println(">>>");
+			MineTweakerAPI.logInfo(">>>"+MineTweakerAPI.currentStage + "");
 			MineTweakerAPI.apply(new RemoveAction(toRemove, toRemoveValues));
 		}
 	}
@@ -128,6 +132,11 @@ public class MCFurnaceManager implements IFurnaceManager {
 		public Object getOverrideKey() {
 			return null;
 		}
+		
+		@Override
+		public EnumLoadingStage getLoadingStage() {
+			return EnumLoadingStage.SERVER_STARTING;
+		}
 	}
 	
 	private static class AddRecipeAction implements IUndoableAction {
@@ -180,6 +189,11 @@ public class MCFurnaceManager implements IFurnaceManager {
 		public Object getOverrideKey() {
 			return null;
 		}
+		
+		@Override
+		public EnumLoadingStage getLoadingStage() {
+			return EnumLoadingStage.SERVER_STARTING;
+		}
 	}
 	
 	private static class SetFuelAction implements IUndoableAction {
@@ -218,6 +232,11 @@ public class MCFurnaceManager implements IFurnaceManager {
 		@Override
 		public Object getOverrideKey() {
 			return null;
+		}
+		
+		@Override
+		public EnumLoadingStage getLoadingStage() {
+			return EnumLoadingStage.SERVER_STARTING;
 		}
 	}
 }

@@ -6,6 +6,7 @@ import minetweaker.api.compat.*;
 import minetweaker.api.event.IEventManager;
 import minetweaker.api.formatting.IFormatter;
 import minetweaker.api.game.IGame;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.api.mods.ILoadedMods;
 import minetweaker.api.oredict.IOreDict;
 import minetweaker.api.recipes.*;
@@ -141,12 +142,14 @@ public class MineTweakerAPI {
 	 */
 	public static IJEIRecipeRegistry ijeiRecipeRegistry = new DummyJEIRecipeRegistry();
 	
+	public static EnumLoadingStage currentStage;
+	
 	/**
 	 * Applies this given action.
 	 *
 	 * @param action action object
 	 */
-	public static void apply(IUndoableAction action) {
+	public static void apply(IAction action) {
 		tweaker.apply(action);
 	}
 	
@@ -168,6 +171,7 @@ public class MineTweakerAPI {
 	 */
 	public static void logInfo(String message) {
 		getLogger().logInfo(message);
+		System.out.println(message);
 	}
 	
 	/**

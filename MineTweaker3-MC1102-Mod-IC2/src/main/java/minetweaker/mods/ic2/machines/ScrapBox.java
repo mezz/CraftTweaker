@@ -7,11 +7,12 @@
 package minetweaker.mods.ic2.machines;
 
 import ic2.api.recipe.Recipes;
-import minetweaker.MineTweakerAPI;
-import minetweaker.OneWayAction;
+import minetweaker.*;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.WeightedItemStack;
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
+
+import minetweaker.api.loadstages.EnumLoadingStage;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -43,7 +44,7 @@ public class ScrapBox {
 		MineTweakerAPI.apply(new AddDropAction(stack));
 	}
 	
-	private static class AddDropAction extends OneWayAction {
+	private static class AddDropAction implements IAction {
 		private final WeightedItemStack stack;
 		
 		public AddDropAction(WeightedItemStack stack) {
@@ -64,7 +65,12 @@ public class ScrapBox {
 		public Object getOverrideKey() {
 			return null;
 		}
-
+		
+		@Override
+		public EnumLoadingStage getLoadingStage() {
+			return EnumLoadingStage.POSTINITIALIZATION;
+		}
+		
 		@Override
 		public int hashCode() {
 			int hash = 5;

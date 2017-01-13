@@ -7,6 +7,7 @@
 package minetweaker.mc1102.server;
 
 import minetweaker.*;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.player.IPlayer;
 import minetweaker.api.server.*;
@@ -144,7 +145,7 @@ public class MCServer extends AbstractServer {
 		}
 	}
 	
-	private class AddCommandAction implements IUndoableAction {
+	private class AddCommandAction implements IAction {
 		
 		private final ICommand command;
 		
@@ -154,19 +155,10 @@ public class MCServer extends AbstractServer {
 		
 		@Override
 		public void apply() {
+			System.out.println(">>>" +MineTweakerAPI.currentStage);
 			CommandHandler ch = (CommandHandler) MineTweakerMod.server.getCommandManager();
 			if(!ch.getCommands().containsValue(command))
 				ch.registerCommand(command);
-		}
-		
-		@Override
-		public boolean canUndo() {
-			return true;
-		}
-		
-		@Override
-		public void undo() {
-			
 		}
 		
 		@Override
@@ -177,14 +169,14 @@ public class MCServer extends AbstractServer {
 			return "";
 		}
 		
-		@Override
-		public String describeUndo() {
-			return "tried to remove command: " + command.getCommandName() + " failed. THIS IS NOT AN ERROR!";
-		}
 		
 		@Override
 		public Object getOverrideKey() {
 			return null;
+		}
+		@Override
+		public EnumLoadingStage getLoadingStage() {
+			return EnumLoadingStage.SERVER_STARTING;
 		}
 	}
 	

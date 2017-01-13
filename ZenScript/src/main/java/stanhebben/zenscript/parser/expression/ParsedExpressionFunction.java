@@ -8,6 +8,8 @@ package stanhebben.zenscript.parser.expression;
 
 import java.lang.reflect.Method;
 import java.util.List;
+
+import stanhebben.zenscript.FileLogger;
 import stanhebben.zenscript.compiler.IEnvironmentMethod;
 import stanhebben.zenscript.definitions.ParsedFunctionArgument;
 import stanhebben.zenscript.expression.ExpressionFunction;
@@ -40,7 +42,7 @@ public class ParsedExpressionFunction extends ParsedExpression {
 	@Override
 	public IPartialExpression compile(IEnvironmentMethod environment, ZenType predictedType) {
 		if (predictedType != null && predictedType instanceof ZenTypeNative) {
-			System.out.println("Known predicted function type: " + predictedType);
+			FileLogger.INSTANCE.logInfo("Known predicted function type: " + predictedType);
 
 			ZenTypeNative nativeType = (ZenTypeNative) predictedType;
 			Class nativeClass = nativeType.getNativeClass();
@@ -76,7 +78,7 @@ public class ParsedExpressionFunction extends ParsedExpression {
 				return new ExpressionInvalid(getPosition());
 			}
 		} else {
-			System.out.println("No known predicted type");
+			FileLogger.INSTANCE.logInfo("No known predicted type");
 			return new ExpressionFunction(getPosition(), arguments, returnType, statements);
 		}
 	}

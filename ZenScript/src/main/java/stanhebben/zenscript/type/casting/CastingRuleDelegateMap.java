@@ -25,7 +25,7 @@ public class CastingRuleDelegateMap implements ICastingRuleDelegate {
 	@Override
 	public void registerCastingRule(ZenType type, ICastingRule rule) {
 		// XXX: remove before release
-		// System.out.println("Registering casting rule to convert " + forType +
+		// FileLogger.INSTANCE.logInfo("Registering casting rule to convert " + forType +
 		// " to " + type + ": " + rule);
 
 		target.put(type, rule);

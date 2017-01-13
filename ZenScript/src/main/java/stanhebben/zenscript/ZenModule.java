@@ -133,7 +133,7 @@ public class ZenModule {
         constructor.visitEnd();
 
         // debug: output classes
-        if(debug) {
+        if(true) {
             try {
                 File outputDir = new File("generated");
                 outputDir.mkdir();

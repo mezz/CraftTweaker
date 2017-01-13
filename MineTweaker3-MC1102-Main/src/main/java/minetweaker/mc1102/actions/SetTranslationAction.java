@@ -6,7 +6,8 @@
 
 package minetweaker.mc1102.actions;
 
-import minetweaker.IUndoableAction;
+import minetweaker.*;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.mc1102.util.MineTweakerHacks;
 import net.minecraft.util.text.translation.LanguageMap;
 
@@ -66,5 +67,9 @@ public class SetTranslationAction implements IUndoableAction {
 	@Override
 	public Object getOverrideKey() {
 		return null;
+	}
+	@Override
+	public EnumLoadingStage getLoadingStage() {
+		return EnumLoadingStage.SERVER_STARTING;
 	}
 }

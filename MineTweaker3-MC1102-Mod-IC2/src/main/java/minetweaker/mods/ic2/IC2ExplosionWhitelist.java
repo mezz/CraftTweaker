@@ -1,8 +1,7 @@
 package minetweaker.mods.ic2;
 
 import ic2.api.tile.ExplosionWhitelist;
-import minetweaker.IUndoableAction;
-import minetweaker.MineTweakerAPI;
+import minetweaker.*;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IItemStack;
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;

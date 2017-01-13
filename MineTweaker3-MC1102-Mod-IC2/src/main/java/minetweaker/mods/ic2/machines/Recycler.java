@@ -7,12 +7,13 @@
 package minetweaker.mods.ic2.machines;
 
 import ic2.api.recipe.Recipes;
-import minetweaker.MineTweakerAPI;
-import minetweaker.OneWayAction;
+import minetweaker.*;
 import minetweaker.annotations.ModOnly;
 import minetweaker.api.item.IIngredient;
 import minetweaker.api.item.IItemStack;
 import static minetweaker.api.minecraft.MineTweakerMC.getItemStack;
+
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.mods.ic2.IC2RecipeInput;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -34,7 +35,7 @@ public class Recycler {
 		return Recipes.recyclerBlacklist.contains(getItemStack(item));
 	}
 	
-	private static class AddBlacklistAction extends OneWayAction {
+	private static class AddBlacklistAction implements IAction {
 		private IIngredient ingredient;
 		
 		public AddBlacklistAction(IIngredient ingredient) {
@@ -55,7 +56,12 @@ public class Recycler {
 		public Object getOverrideKey() {
 			return null;
 		}
-
+		
+		@Override
+		public EnumLoadingStage getLoadingStage() {
+			return EnumLoadingStage.POSTINITIALIZATION;
+		}
+		
 		@Override
 		public int hashCode() {
 			int hash = 3;

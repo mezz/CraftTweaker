@@ -6,10 +6,10 @@
 
 package minetweaker.mc1102.oredict;
 
-import minetweaker.IUndoableAction;
-import minetweaker.MineTweakerAPI;
+import minetweaker.*;
 import minetweaker.api.item.*;
 import minetweaker.api.liquid.ILiquidStack;
+import minetweaker.api.loadstages.EnumLoadingStage;
 import minetweaker.api.minecraft.MineTweakerMC;
 import minetweaker.api.oredict.IOreDictEntry;
 import minetweaker.api.oredict.IngredientOreDict;
@@ -290,6 +290,11 @@ public class MCOreDictEntry implements IOreDictEntry {
         public Object getOverrideKey() {
             return null;
         }
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
+        }
 
     }
 
@@ -343,6 +348,10 @@ public class MCOreDictEntry implements IOreDictEntry {
         public Object getOverrideKey() {
             return null;
         }
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
+        }
     }
 
     private static class ActionRemoveItem implements IUndoableAction {
@@ -384,6 +393,11 @@ public class MCOreDictEntry implements IOreDictEntry {
         @Override
         public Object getOverrideKey() {
             return null;
+        }
+    
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
         }
     }
 
@@ -429,6 +443,10 @@ public class MCOreDictEntry implements IOreDictEntry {
         @Override
         public Object getOverrideKey() {
             return null;
+        }
+        @Override
+        public EnumLoadingStage getLoadingStage() {
+            return EnumLoadingStage.SERVER_STARTING;
         }
     }
 }

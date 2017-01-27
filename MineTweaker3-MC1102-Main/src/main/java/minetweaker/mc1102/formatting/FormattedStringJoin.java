@@ -64,4 +64,13 @@ public class FormattedStringJoin implements IMCFormattedString{
         newValues[values.length] = (IMCFormattedString) other;
         return new FormattedStringJoin(newValues);
     }
+    
+    @Override
+    public String asString() {
+        StringBuilder string = new StringBuilder();
+        for(IMCFormattedString value : values) {
+            string.append(value.asString() + " ");
+        }
+        return string.toString();
+    }
 }

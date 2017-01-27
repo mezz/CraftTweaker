@@ -6,11 +6,8 @@
 
 package minetweaker.api.server;
 
-import minetweaker.api.event.IEventHandle;
-import minetweaker.api.event.PlayerLoggedInEvent;
-import minetweaker.api.event.PlayerLoggedOutEvent;
+import minetweaker.api.event.handlers.*;
 import minetweaker.api.player.IPlayer;
-import minetweaker.util.IEventHandler;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -37,10 +34,10 @@ public interface IServer {
     boolean isOp(IPlayer player);
 
 	@ZenMethod
-    IEventHandle onPlayerLoggedIn(IEventHandler<PlayerLoggedInEvent> ev);
+	void onPlayerLoggedIn(PlayerLoggedInHandler ev);
 
 	@ZenMethod
-    IEventHandle onPlayerLoggedOut(IEventHandler<PlayerLoggedOutEvent> ev);
+	void onPlayerLoggedOut(PlayerLoggedOutHandler ev);
 
 	@ZenMethod
     boolean isCommandAdded(String name);

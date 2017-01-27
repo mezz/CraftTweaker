@@ -37,4 +37,9 @@ public class FormattedString implements IMCFormattedString{
     public IFormattedText cat(IFormattedText other){
         return new FormattedStringJoin(this, (IMCFormattedString) other);
     }
+    
+    @Override
+    public String asString() {
+        return value;
+    }
 }

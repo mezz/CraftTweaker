@@ -7,6 +7,7 @@
 package minetweaker.api.world;
 
 import minetweaker.api.block.IBlock;
+import minetweaker.api.util.IBlockPos;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -21,5 +22,5 @@ public interface IBlockGroup {
     IDimension getDimension();
 
 	@ZenMethod
-    IBlock getBlock(int x, int y, int z);
+	IBlock getBlock(IBlockPos pos);
 }

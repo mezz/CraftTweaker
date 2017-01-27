@@ -8,6 +8,7 @@ package minetweaker.mc1102;
 
 import minetweaker.*;
 import minetweaker.api.entity.IEntityDefinition;
+import minetweaker.api.event.PlayerPickupEvent;
 import minetweaker.api.formatting.IFormattedText;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.minecraft.MineTweakerMC;
@@ -20,9 +21,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.*;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.*;
 import org.lwjgl.input.Keyboard;
 
+import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 import java.util.*;
 
 /**
@@ -32,8 +34,8 @@ public class ForgeEventHandler {
 	
 	@SubscribeEvent
 	public void onPlayerInteract(PlayerInteractEvent ev) {
-		minetweaker.api.event.PlayerInteractEvent event = new minetweaker.api.event.PlayerInteractEvent(MineTweakerMC.getIPlayer(ev.getEntityPlayer()), MineTweakerMC.getDimension(ev.getWorld()), ev.getPos() == null ? 0 : ev.getPos().getX(), ev.getPos() == null ? 0 : ev.getPos().getY(), ev.getPos() == null ? 0 : ev.getPos().getZ());
-		MineTweakerImplementationAPI.events.publishPlayerInteract(event);
+//		minetweaker.api.event.PlayerInteractEvent event = new minetweaker.api.event.PlayerInteractEvent(MineTweakerMC.getIPlayer(ev.getEntityPlayer()), MineTweakerMC.getDimension(ev.getWorld()), ev.getPos() == null ? 0 : ev.getPos().getX(), ev.getPos() == null ? 0 : ev.getPos().getY(), ev.getPos() == null ? 0 : ev.getPos().getZ());
+//		MineTweakerImplementationAPI.events.publishPlayerInteract(event);
 	}
 	
 	@SubscribeEvent
@@ -58,7 +60,11 @@ public class ForgeEventHandler {
 	public void mobDrop(LivingDropsEvent ev) {
 		Entity entity = ev.getEntity();
 		IEntityDefinition entityDefinition = MineTweakerAPI.game.getEntity(EntityList.getEntityString(ev.getEntity()));
-		
+		if(entityDefinition == null){
+			ev.setResult(Event.Result.DEFAULT);
+			return;
+			
+		}
 		if(!entityDefinition.getDropsToAdd().isEmpty()) {
 			entityDefinition.getDropsToAdd().forEach((key, val) -> {
 				EntityItem item = null;

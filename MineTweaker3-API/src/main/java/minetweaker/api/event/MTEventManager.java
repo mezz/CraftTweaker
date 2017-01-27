@@ -1,417 +1,171 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package minetweaker.api.event;
 
-import minetweaker.util.EventList;
-import minetweaker.util.IEventHandler;
+import minetweaker.api.event.handlers.*;
 
-/**
- *
- * @author Stan
- */
+import java.util.LinkedList;
+
 public class MTEventManager implements IEventManager {
+	
+	private LinkedList<PlayerLoggedInHandler> elPlayerLoggedIn = new LinkedList<>();
+	private LinkedList<PlayerLoggedOutHandler> elPlayerLoggedOut = new LinkedList<>();
+	private LinkedList<PlayerSmeltedHandler> elPlayerSmelted = new LinkedList<>();
+	private LinkedList<PlayerCraftedHandler> elPlayerCrafted = new LinkedList<>();
+	private LinkedList<PlayerRespawnHandler> elPlayerRespawn= new LinkedList<>();
+	private LinkedList<PlayerChangedDimensionHandler> elPlayerChangedDimension= new LinkedList<>();
+	
+	
+	
+	@Override
 	public void clear() {
-		elPlayerCrafted.clear();
-		elPlayerSmelted.clear();
-		elPlayerChangedDimension.clear();
 		elPlayerLoggedIn.clear();
 		elPlayerLoggedOut.clear();
+		elPlayerSmelted.clear();
+		elPlayerCrafted.clear();
 		elPlayerRespawn.clear();
-		elPlayerAttackEntity.clear();
-		elPlayerBonemeal.clear();
-		elPlayerInteractEntity.clear();
-		elPlayerPickup.clear();
-		elPlayerPickupItem.clear();
-		elPlayerFillBucket.clear();
-		elPlayerDeathDrops.clear();
-		elPlayerInteract.clear();
-		elPlayerOpenContainer.clear();
-		elPlayerPickupXp.clear();
-		elPlayerSleepInBed.clear();
-		elPlayerUseHoe.clear();
-		elPlayerUseItemStart.clear();
-		elPlayerUseItemTick.clear();
+		elPlayerChangedDimension.clear();
 	}
-
-	// ##########################
-	// ### PlayerCraftedEvent ###
-	// ##########################
-
-	private final EventList<PlayerCraftedEvent> elPlayerCrafted = new EventList<PlayerCraftedEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerCrafted(IEventHandler<PlayerCraftedEvent> ev) {
-		return elPlayerCrafted.add(ev);
+	public void onPlayerLoggedIn(PlayerLoggedInHandler ev) {
+		elPlayerLoggedIn.add(ev);
 	}
-
-	public boolean hasPlayerCrafted() {
-		return elPlayerCrafted.hasHandlers();
-	}
-
-	public void publishPlayerCrafted(PlayerCraftedEvent event) {
-		elPlayerCrafted.publish(event);
-	}
-
-	// ##########################
-	// ### PlayerSmeltedEvent ###
-	// ##########################
-
-	private final EventList<PlayerSmeltedEvent> elPlayerSmelted = new EventList<PlayerSmeltedEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerSmelted(IEventHandler<PlayerSmeltedEvent> ev) {
-		return elPlayerSmelted.add(ev);
+	public void publishPlayerLoggedIn(PlayerLoggedInEvent ev) {
+		elPlayerLoggedIn.forEach(event -> event.handle(ev));
 	}
-
-	public boolean hasPlayerSmelted() {
-		return elPlayerSmelted.hasHandlers();
-	}
-
-	public void publishPlayerSmelted(PlayerSmeltedEvent event) {
-		elPlayerSmelted.publish(event);
-	}
-
-	// ###################################
-	// ### PlayerChangedDimensionEvent ###
-	// ###################################
-
-	private final EventList<PlayerChangedDimensionEvent> elPlayerChangedDimension = new EventList<PlayerChangedDimensionEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerChangedDimension(IEventHandler<PlayerChangedDimensionEvent> ev) {
-		return elPlayerChangedDimension.add(ev);
+	public void onPlayerLoggedOut(PlayerLoggedOutHandler ev) {
+		elPlayerLoggedOut.add(ev);
 	}
-
-	public boolean hasPlayerChangedDimension() {
-		return elPlayerChangedDimension.hasHandlers();
-	}
-
-	public void publishPlayerChangedDimension(PlayerChangedDimensionEvent event) {
-		elPlayerChangedDimension.publish(event);
-	}
-
-	// ###########################
-	// ### PlayerLoggedInEvent ###
-	// ###########################
-
-	private final EventList<PlayerLoggedInEvent> elPlayerLoggedIn = new EventList<PlayerLoggedInEvent>();
-
-	public IEventHandle onPlayerLoggedIn(IEventHandler<PlayerLoggedInEvent> ev) {
-		return elPlayerLoggedIn.add(ev);
-	}
-
-	public boolean hasPlayerLoggedIn() {
-		return elPlayerLoggedIn.hasHandlers();
-	}
-
-	public void publishPlayerLoggedIn(PlayerLoggedInEvent event) {
-		elPlayerLoggedIn.publish(event);
-	}
-
-	// ############################
-	// ### PlayerLoggedOutEvent ###
-	// ############################
-
-	private final EventList<PlayerLoggedOutEvent> elPlayerLoggedOut = new EventList<PlayerLoggedOutEvent>();
-
-	public IEventHandle onPlayerLoggedOut(IEventHandler<PlayerLoggedOutEvent> ev) {
-		return elPlayerLoggedOut.add(ev);
-	}
-
-	public boolean hasPlayerLoggedOut() {
-		return elPlayerLoggedOut.hasHandlers();
-	}
-
-	public void publishPlayerLoggedOut(PlayerLoggedOutEvent event) {
-		elPlayerLoggedOut.publish(event);
-	}
-
-	// ##########################
-	// ### PlayerRespawnEvent ###
-	// ##########################
-
-	private final EventList<PlayerRespawnEvent> elPlayerRespawn = new EventList<PlayerRespawnEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerRespawn(IEventHandler<PlayerRespawnEvent> ev) {
-		return elPlayerRespawn.add(ev);
+	public void publishPlayerLoggedOut(PlayerLoggedOutEvent ev) {
+		elPlayerLoggedOut.forEach(event -> event.handle(ev));
 	}
-
-	public boolean hasPlayerRespawn() {
-		return elPlayerRespawn.hasHandlers();
-	}
-
-	public void publishPlayerRespawn(PlayerRespawnEvent event) {
-		elPlayerRespawn.publish(event);
-	}
-
-	// ###############################
-	// ### PlayerAttackEntityEvent ###
-	// ###############################
-
-	private final EventList<PlayerAttackEntityEvent> elPlayerAttackEntity = new EventList<PlayerAttackEntityEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerAttackEntity(IEventHandler<PlayerAttackEntityEvent> ev) {
-		return elPlayerAttackEntity.add(ev);
+	public void onPlayerSmelted(PlayerSmeltedHandler ev) {
+		elPlayerSmelted.add(ev);
 	}
-
-	public boolean hasPlayerAttackEntity() {
-		return elPlayerAttackEntity.hasHandlers();
-	}
-
-	public void publishPlayerAttackEntity(PlayerAttackEntityEvent event) {
-		elPlayerAttackEntity.publish(event);
-	}
-
-	// ###########################
-	// ### PlayerBonemealEvent ###
-	// ###########################
-
-	private final EventList<PlayerBonemealEvent> elPlayerBonemeal = new EventList<PlayerBonemealEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerBonemeal(IEventHandler<PlayerBonemealEvent> ev) {
-		return elPlayerBonemeal.add(ev);
+	public void publishPlayerSmelted(PlayerSmeltedEvent ev) {
+		elPlayerSmelted.forEach(event -> event.handle(ev));
 	}
-
-	public boolean hasPlayerBonemeal() {
-		return elPlayerBonemeal.hasHandlers();
-	}
-
-	public void publishPlayerBonemeal(PlayerBonemealEvent event) {
-		elPlayerBonemeal.publish(event);
-	}
-
-	// #################################
-	// ### PlayerInteractEntityEvent ###
-	// #################################
-
-	private final EventList<PlayerInteractEntityEvent> elPlayerInteractEntity = new EventList<PlayerInteractEntityEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerInteractEntity(IEventHandler<PlayerInteractEntityEvent> ev) {
-		return elPlayerInteractEntity.add(ev);
+	public void onPlayerCrafted(PlayerCraftedHandler ev) {
+		elPlayerCrafted.add(ev);
 	}
-
-	public boolean hasPlayerInteractEntity() {
-		return elPlayerInteractEntity.hasHandlers();
-	}
-
-	public void publishPlayerInteractEntity(PlayerInteractEntityEvent event) {
-		elPlayerInteractEntity.publish(event);
-	}
-
-	// #########################
-	// ### PlayerPickupEvent ###
-	// #########################
-
-	private final EventList<PlayerPickupEvent> elPlayerPickup = new EventList<PlayerPickupEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerPickup(IEventHandler<PlayerPickupEvent> ev) {
-		return elPlayerPickup.add(ev);
+	public void publishPlayerCrafted(PlayerCraftedEvent ev) {
+		elPlayerCrafted.forEach(event -> event.handle(ev));
 	}
-
-	public boolean hasPlayerPickup() {
-		return elPlayerPickup.hasHandlers();
-	}
-
-	public void publishPlayerPickup(PlayerPickupEvent event) {
-		elPlayerPickup.publish(event);
-	}
-
-	// #############################
-	// ### PlayerPickupItemEvent ###
-	// #############################
-
-	private final EventList<PlayerPickupItemEvent> elPlayerPickupItem = new EventList<PlayerPickupItemEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerPickupItem(IEventHandler<PlayerPickupItemEvent> ev) {
-		return elPlayerPickupItem.add(ev);
+	public void onPlayerRespawn(PlayerRespawnHandler ev) {
+		elPlayerRespawn.add(ev);
 	}
-
-	public boolean hasPlayerPickupItem() {
-		return elPlayerPickupItem.hasHandlers();
-	}
-
-	public void publishPlayerPickupItem(PlayerPickupItemEvent event) {
-		elPlayerPickupItem.publish(event);
-	}
-
-	// #############################
-	// ### PlayerFillBucketEvent ###
-	// #############################
-
-	private final EventList<PlayerFillBucketEvent> elPlayerFillBucket = new EventList<PlayerFillBucketEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerFillBucket(IEventHandler<PlayerFillBucketEvent> ev) {
-		return elPlayerFillBucket.add(ev);
+	public void publishPlayerRespawn(PlayerRespawnEvent ev) {
+		elPlayerRespawn.forEach(event -> event.handle(ev));
 	}
-
-	public boolean hasPlayerFillBucket() {
-		return elPlayerFillBucket.hasHandlers();
-	}
-
-	public void publishPlayerFillBucket(PlayerFillBucketEvent event) {
-		elPlayerFillBucket.publish(event);
-	}
-
-	// #############################
-	// ### PlayerDeathDropsEvent ###
-	// #############################
-
-	private final EventList<PlayerDeathDropsEvent> elPlayerDeathDrops = new EventList<PlayerDeathDropsEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerDeathDrops(IEventHandler<PlayerDeathDropsEvent> ev) {
-		return elPlayerDeathDrops.add(ev);
+	public void onPlayerChangedDimension(PlayerChangedDimensionHandler ev) {
+		elPlayerChangedDimension.add(ev);
 	}
-
-	public boolean hasPlayerDeathDrops() {
-		return elPlayerDeathDrops.hasHandlers();
-	}
-
-	public void publishPlayerDeathDrops(PlayerDeathDropsEvent event) {
-		elPlayerDeathDrops.publish(event);
-	}
-
-	// ###########################
-	// ### PlayerInteractEvent ###
-	// ###########################
-
-	private final EventList<PlayerInteractEvent> elPlayerInteract = new EventList<PlayerInteractEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerInteract(IEventHandler<PlayerInteractEvent> ev) {
-		return elPlayerInteract.add(ev);
+	public void publishPlayerChangedDimension(PlayerChangedDimensionEvent ev) {
+		elPlayerChangedDimension.forEach(event -> event.handle(ev));
 	}
-
-	public boolean hasPlayerInteract() {
-		return elPlayerInteract.hasHandlers();
-	}
-
-	public void publishPlayerInteract(PlayerInteractEvent event) {
-		elPlayerInteract.publish(event);
-	}
-
-	// ################################
-	// ### PlayerOpenContainerEvent ###
-	// ################################
-
-	private final EventList<PlayerOpenContainerEvent> elPlayerOpenContainer = new EventList<PlayerOpenContainerEvent>();
-
+	//TODO implement the rest
 	@Override
-	public IEventHandle onPlayerOpenContainer(IEventHandler<PlayerOpenContainerEvent> ev) {
-		return elPlayerOpenContainer.add(ev);
+	public void onPlayerInteractEntity(PlayerInteractEntityHandler ev) {
+		
 	}
-
-	public boolean hasPlayerOpenContainer() {
-		return elPlayerOpenContainer.hasHandlers();
-	}
-
-	public void publishPlayerOpenContainer(PlayerOpenContainerEvent event) {
-		elPlayerOpenContainer.publish(event);
-	}
-
-	// ###########################
-	// ### PlayerPickupXpEvent ###
-	// ###########################
-
-	private final EventList<PlayerPickupXpEvent> elPlayerPickupXp = new EventList<PlayerPickupXpEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerPickupXp(IEventHandler<PlayerPickupXpEvent> ev) {
-		return elPlayerPickupXp.add(ev);
+	public void publishPlayerInteractEntity(PlayerInteractEntityEvent ev) {
+		
 	}
-
-	public boolean hasPlayerPickupXp() {
-		return elPlayerPickupXp.hasHandlers();
-	}
-
-	public void publishPlayerPickup(PlayerPickupXpEvent event) {
-		elPlayerPickupXp.publish(event);
-	}
-
-	// #############################
-	// ### PlayerSleepInBedEvent ###
-	// #############################
-
-	private final EventList<PlayerSleepInBedEvent> elPlayerSleepInBed = new EventList<PlayerSleepInBedEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerSleepInBed(IEventHandler<PlayerSleepInBedEvent> ev) {
-		return elPlayerSleepInBed.add(ev);
+	public void onPlayerInteract(PlayerInteractHandler ev) {
+		
 	}
-
-	public boolean hasPlayerSleepInBed() {
-		return elPlayerSleepInBed.hasHandlers();
-	}
-
-	public void publishPlayerSleepInBed(PlayerSleepInBedEvent event) {
-		elPlayerSleepInBed.publish(event);
-	}
-
-	// #########################
-	// ### PlayerUseHoeEvent ###
-	// #########################
-
-	private final EventList<PlayerUseHoeEvent> elPlayerUseHoe = new EventList<PlayerUseHoeEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerUseHoe(IEventHandler<PlayerUseHoeEvent> ev) {
-		return elPlayerUseHoe.add(ev);
+	public void publishPlayerInteract(PlayerInteractEvent ev) {
+		
 	}
-
-	public boolean hasPlayerUseHoe() {
-		return elPlayerUseHoe.hasHandlers();
-	}
-
-	public void publishPlayerUseHoe(PlayerUseHoeEvent event) {
-		elPlayerUseHoe.publish(event);
-	}
-
-	// ###############################
-	// ### PlayerUseItemStartEvent ###
-	// ###############################
-
-	private final EventList<PlayerUseItemStartEvent> elPlayerUseItemStart = new EventList<PlayerUseItemStartEvent>();
-
+	
+	
+	
+	
+	
 	@Override
-	public IEventHandle onPlayerUseItemStart(IEventHandler<PlayerUseItemStartEvent> ev) {
-		return elPlayerUseItemStart.add(ev);
+	public void onPlayerAttackEntity(PlayerAttackEntityEvent ev) {
+		
 	}
-
-	public boolean hasPlayerUseItemStart() {
-		return elPlayerUseItemStart.hasHandlers();
-	}
-
-	public void publishPlayerUseItemStart(PlayerUseItemStartEvent event) {
-		elPlayerUseItemStart.publish(event);
-	}
-
-	// ##############################
-	// ### PlayerUseItemTickEvent ###
-	// ##############################
-
-	private final EventList<PlayerUseItemTickEvent> elPlayerUseItemTick = new EventList<PlayerUseItemTickEvent>();
-
+	
 	@Override
-	public IEventHandle onPlayerUseItemTick(IEventHandler<PlayerUseItemTickEvent> ev) {
-		return elPlayerUseItemTick.add(ev);
+	public void onPlayerBonemeal(PlayerBonemealEvent ev) {
+		
 	}
-
-	public boolean hasPlayerUseItemTick() {
-		return elPlayerUseItemTick.hasHandlers();
+	
+	@Override
+	public void onPlayerPickup(PlayerPickupEvent ev) {
+		
 	}
-
-	public void publishPlayerUseItemTick(PlayerUseItemTickEvent event) {
-		elPlayerUseItemTick.publish(event);
+	
+	@Override
+	public void onPlayerPickupItem(PlayerPickupItemEvent ev) {
+		
+	}
+	
+	@Override
+	public void onPlayerFillBucket(PlayerFillBucketEvent ev) {
+		
+	}
+	
+	@Override
+	public void onPlayerDeathDrops(PlayerDeathDropsEvent ev) {
+		
+	}
+	
+	@Override
+	public void onPlayerOpenContainer(PlayerOpenContainerEvent ev) {
+		
+	}
+	
+	@Override
+	public void onPlayerPickupXp(PlayerPickupXpEvent ev) {
+		
+	}
+	
+	@Override
+	public void onPlayerSleepInBed(PlayerSleepInBedEvent ev) {
+		
+	}
+	
+	@Override
+	public void onPlayerUseHoe(PlayerUseHoeEvent ev) {
+		
+	}
+	
+	@Override
+	public void onPlayerUseItemStart(PlayerUseItemStartEvent ev) {
+		
+	}
+	
+	@Override
+	public void onPlayerUseItemTick(PlayerUseItemTickEvent ev) {
+		
 	}
 }

@@ -31,7 +31,7 @@ public class MCItemBlock implements IBlock{
 
     @Override
     public IBlockDefinition getDefinition(){
-        return MineTweakerMC.getBlockDefinition(Block.getBlockFromItem(item.getItem()));
+        return MineTweakerMC.getBlockDefinition(Block.getBlockFromItem(item.getItem()), item.getItemDamage());
     }
 
     @Override
@@ -46,7 +46,12 @@ public class MCItemBlock implements IBlock{
 
         return MineTweakerMC.getIData(item.getTagCompound());
     }
-
+    
+    @Override
+    public boolean isBlock(IBlockDefinition blockDefinition) {
+        return item.isItemEqual(new ItemStack((Block)blockDefinition.getInternal(), blockDefinition.getMeta()));
+    }
+    
     @Override
     public String getDisplayName(){
         return item.getDisplayName();

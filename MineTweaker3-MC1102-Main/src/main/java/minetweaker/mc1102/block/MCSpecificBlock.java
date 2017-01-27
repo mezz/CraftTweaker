@@ -36,7 +36,7 @@ public class MCSpecificBlock implements IBlock{
 
     @Override
     public IBlockDefinition getDefinition(){
-        return MineTweakerMC.getBlockDefinition(block);
+        return MineTweakerMC.getBlockDefinition(block, meta);
     }
 
     @Override
@@ -48,7 +48,12 @@ public class MCSpecificBlock implements IBlock{
     public IData getTileData(){
         return null;
     }
-
+    
+    @Override
+    public boolean isBlock(IBlockDefinition blockDefinition) {
+        return ((Block)blockDefinition.getInternal()) == block;
+    }
+    
     @Override
     public List<IBlock> getBlocks(){
         return Collections.singletonList(this);

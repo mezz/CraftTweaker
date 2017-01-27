@@ -27,8 +27,30 @@ public class FMLEventHandler {
 			EntityPlayerMP player = (EntityPlayerMP) ev.player;
 			MineTweakerMod.NETWORK.sendTo(new MineTweakerLoadScriptsPacket(MineTweakerAPI.tweaker.getScriptData()), player);
 		}
-		
 		MineTweakerImplementationAPI.events.publishPlayerLoggedIn(new PlayerLoggedInEvent(MineTweakerMC.getIPlayer(ev.player)));
+	}
+	
+	@SubscribeEvent
+	public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent ev) {
+		MineTweakerImplementationAPI.events.publishPlayerLoggedOut(new PlayerLoggedOutEvent(MineTweakerMC.getIPlayer(ev.player)));
+	}
+	
+	@SubscribeEvent
+	public void onSmeltedEvent(PlayerEvent.ItemSmeltedEvent ev) {
+		if(!ev.player.worldObj.isRemote)
+			MineTweakerImplementationAPI.events.publishPlayerSmelted(new PlayerSmeltedEvent(MineTweakerMC.getIPlayer(ev.player), new MCItemStack(ev.smelting)));
+	}
+	
+	@SubscribeEvent
+	public void onRespawnEvent(PlayerEvent.PlayerRespawnEvent ev) {
+		if(!ev.player.worldObj.isRemote)
+			MineTweakerImplementationAPI.events.publishPlayerRespawn(new PlayerRespawnEvent(MineTweakerMC.getIPlayer(ev.player)));
+	}
+	
+	@SubscribeEvent
+	public void onDimensionchanged(PlayerEvent.PlayerChangedDimensionEvent ev){
+//		if(!ev.player.worldObj.isRemote)
+//			MineTweakerImplementationAPI.events.publishPlayerChangedDimension(new PlayerChangedDimensionEvent(MineTweakerMC.getIPlayer(ev.player), ev.player.worldObj.provider.dimnew MCDimension(ev.)));
 	}
 	
 	@SubscribeEvent
@@ -54,21 +76,9 @@ public class FMLEventHandler {
 				}
 			});
 		}
-		if(MineTweakerImplementationAPI.events.hasPlayerCrafted()) {
-			MineTweakerImplementationAPI.events.publishPlayerCrafted(new PlayerCraftedEvent(iPlayer, MineTweakerMC.getIItemStack(ev.crafting), MCCraftingInventory.get(ev.craftMatrix, ev.player)));
-		}
+		if(!ev.player.worldObj.isRemote)
+			MineTweakerImplementationAPI.events.publishPlayerCrafted(new PlayerCraftedEvent(MineTweakerMC.getIPlayer(ev.player), new MCItemStack(ev.crafting), MCCraftingInventory.get(ev.craftMatrix, ev.player)));
 	}
 	
-	@SubscribeEvent
-	public void onPlayerItemSmelted(PlayerEvent.ItemSmeltedEvent ev) {
-		if(MineTweakerImplementationAPI.events.hasPlayerSmelted()) {
-			MineTweakerImplementationAPI.events.publishPlayerSmelted(new PlayerSmeltedEvent(MineTweakerMC.getIPlayer(ev.player), MineTweakerMC.getIItemStack(ev.smelting)));
-		}
-	}
-	
-	@SubscribeEvent
-	public void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent ev) {
-		MineTweakerImplementationAPI.events.publishPlayerLoggedOut(new PlayerLoggedOutEvent(MineTweakerMC.getIPlayer(ev.player)));
-	}
 	
 }

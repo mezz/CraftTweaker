@@ -9,6 +9,7 @@ package minetweaker.api.event;
 import minetweaker.api.block.IBlock;
 import minetweaker.api.item.IItemStack;
 import minetweaker.api.player.IPlayer;
+import minetweaker.api.util.IBlockPos;
 import minetweaker.api.world.IBlockGroup;
 import minetweaker.api.world.IDimension;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -24,20 +25,16 @@ public class PlayerUseHoeEvent {
 	private final IPlayer player;
 	private final IItemStack item;
 	private final IBlockGroup blocks;
-	private final int x;
-	private final int y;
-	private final int z;
+	private final IBlockPos pos;
 	private boolean canceled;
 	private boolean processed;
 
-	public PlayerUseHoeEvent(IPlayer player, IItemStack item, IBlockGroup blocks, int x, int y, int z) {
+	public PlayerUseHoeEvent(IPlayer player, IItemStack item, IBlockGroup blocks, IBlockPos pos) {
 		this.player = player;
 		this.item = item;
 		this.blocks = blocks;
-		this.x = x;
-		this.y = y;
-		this.z = z;
-
+		this.pos = pos;
+		
 		canceled = false;
 		processed = false;
 	}
@@ -77,19 +74,9 @@ public class PlayerUseHoeEvent {
 		return blocks;
 	}
 
-	@ZenGetter("x")
-	public int getX() {
-		return x;
-	}
-
-	@ZenGetter("y")
-	public int getY() {
-		return y;
-	}
-
-	@ZenGetter("z")
-	public int getZ() {
-		return z;
+	@ZenGetter("pos")
+	public IBlockPos getPos() {
+		return pos;
 	}
 
 	@ZenGetter("dimension")
@@ -99,6 +86,6 @@ public class PlayerUseHoeEvent {
 
 	@ZenGetter("block")
 	public IBlock getBlock() {
-		return blocks.getBlock(x, y, z);
+		return blocks.getBlock(pos);
 	}
 }

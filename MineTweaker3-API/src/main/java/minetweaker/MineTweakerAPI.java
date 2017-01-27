@@ -10,6 +10,7 @@ import minetweaker.api.mods.ILoadedMods;
 import minetweaker.api.oredict.IOreDict;
 import minetweaker.api.recipes.*;
 import minetweaker.api.server.IServer;
+import minetweaker.api.util.IUtilities;
 import minetweaker.api.vanilla.IVanilla;
 import minetweaker.runtime.*;
 import stanhebben.zenscript.annotations.*;
@@ -59,6 +60,8 @@ public class MineTweakerAPI {
 		registerGlobalSymbol("loadedMods", getJavaStaticFieldSymbol(MineTweakerAPI.class, "loadedMods"));
 		registerGlobalSymbol("format", getJavaStaticFieldSymbol(MineTweakerAPI.class, "format"));
 		registerGlobalSymbol("vanilla", getJavaStaticFieldSymbol(MineTweakerAPI.class, "vanilla"));
+		registerGlobalSymbol("util", getJavaStaticFieldSymbol(MineTweakerAPI.class, "utils"));
+		
 	}
 	
 	private MineTweakerAPI() {
@@ -85,6 +88,11 @@ public class MineTweakerAPI {
 	 * Access point to the ore dictionary.
 	 */
 	public static IOreDict oreDict = null;
+	
+	/**
+	 * Access point to the Utilities class.
+	 */
+	public static IUtilities utils = null;
 	
 	/**
 	 * Access point to the recipe manager.

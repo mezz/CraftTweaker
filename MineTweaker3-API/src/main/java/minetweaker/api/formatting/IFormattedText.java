@@ -6,9 +6,7 @@
 
 package minetweaker.api.formatting;
 
-import stanhebben.zenscript.annotations.OperatorType;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenOperator;
+import stanhebben.zenscript.annotations.*;
 
 /**
  * @author Stan
@@ -20,4 +18,8 @@ public interface IFormattedText {
 
     @ZenOperator(OperatorType.CAT)
     IFormattedText cat(IFormattedText other);
+    
+    @ZenGetter("string")
+    String asString();
+    
 }

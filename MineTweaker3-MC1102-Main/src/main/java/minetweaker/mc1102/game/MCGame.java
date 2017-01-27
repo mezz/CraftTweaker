@@ -7,18 +7,18 @@
 package minetweaker.mc1102.game;
 
 import minetweaker.*;
+import minetweaker.api.biome.IBiome;
 import minetweaker.api.block.IBlockDefinition;
 import minetweaker.api.entity.IEntityDefinition;
 import minetweaker.api.game.IGame;
 import minetweaker.api.item.IItemDefinition;
 import minetweaker.api.liquid.ILiquidDefinition;
 import minetweaker.api.minecraft.MineTweakerMC;
-import minetweaker.api.world.IBiome;
 import minetweaker.mc1102.entity.MCEntityDefinition;
 import minetweaker.mc1102.item.MCItemDefinition;
 import minetweaker.mc1102.liquid.MCLiquidDefinition;
 import minetweaker.mc1102.util.*;
-import net.minecraft.block.Block;
+import net.minecraft.block.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
@@ -50,7 +50,8 @@ public class MCGame implements IGame {
 	
 	@Override
 	public List<IBlockDefinition> getBlocks() {
-		return Block.REGISTRY.getKeys().stream().map(block -> MineTweakerMC.getBlockDefinition(Block.REGISTRY.getObject(block))).collect(Collectors.toList());
+		//TODO change this to get all blocks
+		return Block.REGISTRY.getKeys().stream().map(block -> MineTweakerMC.getBlockDefinition(Block.REGISTRY.getObject(block), 0)).collect(Collectors.toList());
 	}
 	
 	@Override

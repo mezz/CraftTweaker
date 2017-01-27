@@ -1,8 +1,7 @@
 package minetweaker.api.block;
 
 import minetweaker.api.data.IData;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenGetter;
+import stanhebben.zenscript.annotations.*;
 
 /**
  * Block interface. Used to interact with blocks in the world.
@@ -11,17 +10,21 @@ import stanhebben.zenscript.annotations.ZenGetter;
  */
 @ZenClass("minetweaker.block.IBlock")
 public interface IBlock extends IBlockPattern {
-    /**
-     * Gets the block definition.
-     *
-     * @return block definition
-     */
-    @ZenGetter("definition")
-    IBlockDefinition getDefinition();
-
-    @ZenGetter("meta")
-    int getMeta();
-
-    @ZenGetter("data")
-    IData getTileData();
+	
+	/**
+	 * Gets the block definition.
+	 *
+	 * @return block definition
+	 */
+	@ZenGetter("definition")
+	IBlockDefinition getDefinition();
+	
+	@ZenGetter("meta")
+	int getMeta();
+	
+	@ZenGetter("data")
+	IData getTileData();
+	
+	@ZenOperator(OperatorType.EQUALS)
+	boolean isBlock(IBlockDefinition blockDefinition);
 }

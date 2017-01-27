@@ -8,6 +8,7 @@ package minetweaker.api.event;
 
 import minetweaker.api.block.IBlock;
 import minetweaker.api.player.IPlayer;
+import minetweaker.api.util.IBlockPos;
 import minetweaker.api.world.IBlockGroup;
 import minetweaker.api.world.IDimension;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -22,19 +23,15 @@ import stanhebben.zenscript.annotations.ZenMethod;
 public class PlayerBonemealEvent {
 	private final IPlayer player;
 	private final IBlockGroup blocks;
-	private final int x;
-	private final int y;
-	private final int z;
+	private final IBlockPos pos;
 	private boolean canceled;
 	private boolean processed;
 
-	public PlayerBonemealEvent(IPlayer player, IBlockGroup blocks, int x, int y, int z) {
+	public PlayerBonemealEvent(IPlayer player, IBlockGroup blocks, IBlockPos pos) {
 		this.player = player;
 		this.blocks = blocks;
-		this.x = x;
-		this.y = y;
-		this.z = z;
-
+		this.pos = pos;
+		
 		canceled = false;
 		processed = false;
 	}
@@ -69,24 +66,14 @@ public class PlayerBonemealEvent {
 		return blocks;
 	}
 
-	@ZenGetter("x")
-	public int getX() {
-		return x;
-	}
-
-	@ZenGetter("y")
-	public int getY() {
-		return y;
-	}
-
-	@ZenGetter("z")
-	public int getZ() {
-		return z;
+	@ZenGetter("pos")
+	public IBlockPos getPos() {
+		return pos;
 	}
 
 	@ZenGetter("block")
 	public IBlock getBlock() {
-		return blocks.getBlock(x, y, z);
+		return blocks.getBlock(pos);
 	}
 
 	@ZenGetter("dimension")

@@ -6,7 +6,8 @@
 
 package minetweaker.util;
 
-import minetweaker.api.event.IEventHandle;
+
+import minetweaker.api.event.*;
 
 /**
  *

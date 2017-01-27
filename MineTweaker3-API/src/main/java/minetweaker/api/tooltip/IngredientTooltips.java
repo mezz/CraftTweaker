@@ -87,7 +87,7 @@ public class IngredientTooltips {
 
 		@Override
 		public String describeUndo() {
-			return "Removing tooltip for " + ingredient + ": " + tooltip;
+			return "Removing tooltip for " + ingredient + ": " + tooltip.asString();
 		}
 
 		@Override

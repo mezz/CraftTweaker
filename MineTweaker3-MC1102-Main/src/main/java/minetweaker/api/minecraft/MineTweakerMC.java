@@ -1,6 +1,7 @@
 package minetweaker.api.minecraft;
 
 import minetweaker.MineTweakerAPI;
+import minetweaker.api.biome.IBiome;
 import minetweaker.api.block.IBlock;
 import minetweaker.api.block.IBlockDefinition;
 import minetweaker.api.data.IData;
@@ -10,7 +11,6 @@ import minetweaker.api.item.IngredientUnknown;
 import minetweaker.api.liquid.ILiquidStack;
 import minetweaker.api.oredict.IOreDictEntry;
 import minetweaker.api.player.IPlayer;
-import minetweaker.api.world.IBiome;
 import minetweaker.api.world.IDimension;
 import minetweaker.mc1102.block.MCBlockDefinition;
 import minetweaker.mc1102.block.MCSpecificBlock;
@@ -28,6 +28,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -349,24 +350,23 @@ public class MineTweakerMC {
 	 * Retrieves the block at the given position.
 	 * 
 	 * @param blocks block access
-	 * @param x block x position
-	 * @param y block y position
-	 * @param z block z position
+	 * @param pos block position
 	 * @return block instance
 	 */
-	public static IBlock getBlock(IBlockAccess blocks, int x, int y, int z) {
-		return new MCWorldBlock(blocks, x, y, z);
+	public static IBlock getBlock(IBlockAccess blocks, BlockPos pos) {
+		return new MCWorldBlock(blocks, pos);
 	}
 
 	/**
 	 * Retrieves the block definition for the given block.
 	 * 
 	 * @param block block object
+	 * @param meta block meta
 	 * @return block definition
 	 */
-	public static IBlockDefinition getBlockDefinition(Block block) {
+	public static IBlockDefinition getBlockDefinition(Block block, int meta) {
 		if (!blockDefinitions.containsKey(block)) {
-			blockDefinitions.put(block, new MCBlockDefinition(block));
+			blockDefinitions.put(block, new MCBlockDefinition(block, meta));
 		}
 		return blockDefinitions.get(block);
 	}

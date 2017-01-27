@@ -6,6 +6,7 @@
 
 package minetweaker.api.world;
 
+import minetweaker.api.util.IBlockPos;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -20,5 +21,5 @@ public interface IDimension extends IBlockGroup {
     boolean isDay();
 
 	@ZenMethod
-    int getBrightness(int x, int y, int z);
+    int getBrightness(IBlockPos pos);
 }

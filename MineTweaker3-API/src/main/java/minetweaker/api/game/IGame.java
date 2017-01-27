@@ -1,10 +1,10 @@
 package minetweaker.api.game;
 
+import minetweaker.api.biome.IBiome;
 import minetweaker.api.block.IBlockDefinition;
 import minetweaker.api.entity.IEntityDefinition;
 import minetweaker.api.item.IItemDefinition;
 import minetweaker.api.liquid.ILiquidDefinition;
-import minetweaker.api.world.IBiome;
 import stanhebben.zenscript.annotations.*;
 
 import java.util.List;

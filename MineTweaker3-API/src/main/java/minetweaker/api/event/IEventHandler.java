@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package minetweaker.api.world;
+package minetweaker.api.event;
 
 /**
  *
  * @author Stan
  */
-public interface IBiome {
-	String getName();
+public interface IEventHandler<T> {
+	void handle(T event);
 }

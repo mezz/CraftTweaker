@@ -29,22 +29,16 @@ import java.util.List;
  */
 public class MCWorldBlock implements IBlock {
     private final IBlockAccess blocks;
-    private final int x;
-    private final int y;
-    private final int z;
     private final BlockPos pos;
 
-    public MCWorldBlock(IBlockAccess blocks, int x, int y, int z) {
+    public MCWorldBlock(IBlockAccess blocks, BlockPos pos) {
         this.blocks = blocks;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.pos = new BlockPos(x, y, z);
+        this.pos = pos;
     }
 
     @Override
     public IBlockDefinition getDefinition() {
-        return MineTweakerMC.getBlockDefinition(blocks.getBlockState(pos).getBlock());
+        return MineTweakerMC.getBlockDefinition(blocks.getBlockState(pos).getBlock(), blocks.getBlockState(pos).getBlock().getMetaFromState(blocks.getBlockState(pos)));
     }
 
     @Override
@@ -63,7 +57,12 @@ public class MCWorldBlock implements IBlock {
         tileEntity.writeToNBT(nbt);
         return MineTweakerMC.getIData(nbt);
     }
-
+    
+    @Override
+    public boolean isBlock(IBlockDefinition blockDefinition) {
+        return blocks.getBlockState(pos).getBlock() == ((Block)blockDefinition.getInternal()).getStateFromMeta(blockDefinition.getMeta()).getBlock();
+    }
+    
     @Override
     public String getDisplayName() {
         Block block = blocks.getBlockState(pos).getBlock();

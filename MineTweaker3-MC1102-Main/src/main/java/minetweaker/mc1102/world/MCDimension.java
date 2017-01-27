@@ -8,6 +8,7 @@ package minetweaker.mc1102.world;
 
 import minetweaker.api.block.IBlock;
 import minetweaker.api.minecraft.MineTweakerMC;
+import minetweaker.api.util.IBlockPos;
 import minetweaker.api.world.IDimension;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -28,8 +29,8 @@ public class MCDimension implements IDimension{
     }
 
     @Override
-    public int getBrightness(int x, int y, int z){
-        return world.getLight(new BlockPos(x, y, z));
+    public int getBrightness(IBlockPos pos){
+        return world.getLight((BlockPos) pos.getInternal());
     }
 
     @Override
@@ -38,7 +39,7 @@ public class MCDimension implements IDimension{
     }
 
     @Override
-    public IBlock getBlock(int x, int y, int z){
-        return MineTweakerMC.getBlock(world, x, y, z);
+    public IBlock getBlock(IBlockPos pos){
+        return MineTweakerMC.getBlock(world, (BlockPos) pos.getInternal());
     }
 }

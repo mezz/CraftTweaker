@@ -8,15 +8,16 @@ package minetweaker;
 public abstract class OneWayAction implements IUndoableAction {
 	@Override
 	public boolean canUndo() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public void undo() {
+		
 	}
 
 	@Override
 	public String describeUndo() {
-		return "impossibru!";
+		return "";
 	}
 }

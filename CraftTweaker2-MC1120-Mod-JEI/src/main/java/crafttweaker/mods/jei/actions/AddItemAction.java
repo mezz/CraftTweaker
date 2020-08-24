@@ -8,6 +8,7 @@ import crafttweaker.IAction;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.mods.jei.JEIAddonPlugin;
 import mezz.jei.api.ingredients.VanillaTypes;
+import net.minecraft.item.ItemStack;
 
 public class AddItemAction implements IAction{
 
@@ -19,7 +20,11 @@ public class AddItemAction implements IAction{
 	
 	@Override
 	public void apply() {
-		JEIAddonPlugin.itemRegistry.addIngredientsAtRuntime(VanillaTypes.ITEM, Collections.singletonList(getItemStack(stack)));
+		ItemStack itemStack = getItemStack(stack);
+		if(stack.hasTag() && !JEIAddonPlugin.hasSubtypeInterpreter(itemStack)) {
+			JEIAddonPlugin.useNbtForSubtypes(itemStack);
+		}
+		JEIAddonPlugin.itemRegistry.addIngredientsAtRuntime(VanillaTypes.ITEM, Collections.singletonList(itemStack));
 	}
 
 	@Override

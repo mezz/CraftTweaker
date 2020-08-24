@@ -17,10 +17,11 @@ public class JEIAddonPlugin implements IModPlugin {
     public static IIngredientHelper<ItemStack> ingredientHelper;
     public static IModRegistry modRegistry;
     public static IJeiRuntime jeiRuntime;
-    
+    public static ISubtypeRegistry subtypeRegistry;
+
     @Override
     public void registerItemSubtypes(ISubtypeRegistry subtypeRegistry) {
-    
+        this.subtypeRegistry = subtypeRegistry;
     }
     
     @Override
@@ -55,5 +56,18 @@ public class JEIAddonPlugin implements IModPlugin {
             return Collections.singletonList(stack);
         }
         return JEIAddonPlugin.ingredientHelper.expandSubtypes(Collections.singletonList(stack));
+    }
+
+    public static boolean hasSubtypeInterpreter(ItemStack stack) {
+        if(JEIAddonPlugin.subtypeRegistry == null) {
+            return false;
+        }
+        return JEIAddonPlugin.subtypeRegistry.hasSubtypeInterpreter(stack);
+    }
+
+    public static void useNbtForSubtypes(ItemStack stack) {
+        if(JEIAddonPlugin.subtypeRegistry != null) {
+            JEIAddonPlugin.subtypeRegistry.useNbtForSubtypes(stack.getItem());
+        }
     }
 }

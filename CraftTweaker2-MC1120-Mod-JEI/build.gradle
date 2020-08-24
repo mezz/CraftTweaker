@@ -24,7 +24,7 @@ minecraft {
 }
 repositories {
     maven {
-        url "http://dvs1.progwml6.com/files/maven"
+        url "https://dvs1.progwml6.com/files/maven/"
     }
 }
 
@@ -32,7 +32,7 @@ dependencies {
     compile(project(':ZenScript'))
     compile(project(':CraftTweaker2-API'))
     compile project(':CraftTweaker2-MC1120-Main')
-    deobfCompile "mezz.jei:jei_1.12.2:4.15.0.271"
+    deobfCompile "mezz.jei:jei_1.12.2:$jei_version"
 }
 
 processResources {
